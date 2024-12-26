@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from 'react-router-dom'
 
 function ThreadList() {
   const [threadlist, setThreadList] = useState([]);
   const [error, setError] = useState(null);
 
+  // スレッド一覧取得
   useEffect(() => {
     const fetch_thread = async () => {
       try {
@@ -22,13 +23,16 @@ function ThreadList() {
       }
     };
     fetch_thread();
+    if (error) {
+      return <div>{error.message}</div>
+    }
   }, [])
 
   return (
-    <div>
+    <div className="wrapper">
       <section className="thread_header">
         <h2 className="thread_h2">新着スレッド</h2>
-        <Link to="/thread/new">
+        <Link to="/thread/new" className="thread_button_link">
           <button className="thread_button">スレ作成</button>
         </Link>
       </section>
@@ -36,7 +40,7 @@ function ThreadList() {
         {threadlist.map(thread => {
           return (
             <li className="thread_li" key={thread.id}>
-              <Link to={`/threads/${thread.id}`}>
+              <Link to={`/threads/${thread.id}`} state={{ title: thread.title}}>
                 {thread.title}
               </Link>
             </li>

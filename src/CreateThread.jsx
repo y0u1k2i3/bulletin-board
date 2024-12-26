@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import ThreadList from "./ThreadList";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function CreateThread() {
   const [title, setTitle] = useState(""); // スレッド作成用のオブジェクト
   const [error, setError] = useState(null); // エラー用のオブジェクト
   const navigate = useNavigate(); // TOP画面に戻るフック
 
+  // 新規スレッド作成
   const create_newthread = async () => {
     try {
       const newthread_api = await fetch("https://railway.bulletinboard.techtrain.dev/threads", {
@@ -26,16 +26,21 @@ function CreateThread() {
       setError(err);
       console.error(err);
     }
+    if (error) {
+      return <div>{error.message}</div>
+    }
   };
 
   return (
-    <div className="createthread_area">
+    <div className="wrapper">
       <h2 className="thread_h2">新規スレッド作成</h2>
       <label htmlFor="title"></label>
-      <input id="title" type="text" placeholder="スレッドタイトル" onChange={(e) => setTitle(e.target.value)} />
-      <div>
-        <p>TOPに戻る</p>
+      <input id="thread_title" type="text" placeholder="スレッドタイトル" onChange={(e) => setTitle(e.target.value)} />
+      <div className="thread_button_div">
         <button className="thread_button" onClick={create_newthread}>作成</button>
+        <Link to={"/"}>
+          <p>TOPに戻る</p>
+        </Link>
       </div>
     </div>
   )

@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Header from './Header'
 import ThreadList from './ThreadList'
 import './App.css'
@@ -7,10 +6,8 @@ import CreateThread from './createthread'
 import EachThread from './EachThread'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div>
+    // <div>
       <BrowserRouter>
         <Header />
         <Routes>
@@ -19,7 +16,7 @@ function App() {
           <Route path='/threads/:thread_id' element={<EachThread />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    // </div>
   )
 }
 
